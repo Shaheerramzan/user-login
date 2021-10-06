@@ -11,7 +11,7 @@ module Mutations
 
     def authorized?(**inputs)
       @user = User.find_by_email(inputs[:email])
-      @user.present?
+      @user.present? && BCrypt::Password.new(@user.encrypted_password) == inputs[:password]
     end
 
     def resolve(**params)
